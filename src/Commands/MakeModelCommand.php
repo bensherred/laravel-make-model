@@ -4,6 +4,7 @@ namespace BenSherred\MakeModel\Commands;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Console\ModelMakeCommand;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -32,6 +33,7 @@ class MakeModelCommand extends ModelMakeCommand
             $this->input->setOption('resource', true);
             $this->input->setOption('policy', true);
             $this->input->setOption('requests', true);
+            $this->input->setOption('views', true);
         }
 
         if ($this->option('factory')) {
@@ -53,6 +55,10 @@ class MakeModelCommand extends ModelMakeCommand
         if ($this->option('requests')) {
             $this->createRequests();
         }
+
+        if ($this->option('views')) {
+            $this->createViews();
+        }
     }
 
     /**
@@ -69,6 +75,11 @@ class MakeModelCommand extends ModelMakeCommand
         ]);
     }
 
+    /**
+     * Create request files for the model.
+     *
+     * @return void
+     */
     protected function createRequests()
     {
         $request = Str::studly(class_basename($this->argument('name')));
@@ -83,6 +94,62 @@ class MakeModelCommand extends ModelMakeCommand
     }
 
     /**
+     * Create the views for the model.
+     *
+     * @return void
+     */
+    protected function createViews()
+    {
+        $views = ['index', 'create', 'show', 'edit'];
+        $model = strtolower(Str::studly(class_basename($this->argument('name'))));
+
+        foreach ($views as $view) {
+            $path = $this->viewPath($view);
+
+            $this->createDir($path);
+
+            if (File::exists($path)) {
+                $this->error("View {$model}/{$view}.blade.php already exists.");
+                return;
+            }
+
+            File::put($path, $path);
+
+            $this->info(ucfirst($view) . ' view created successfully.');
+        }
+    }
+
+    /**
+     * Get the full path of the view.
+     *
+     * @param  string  $view
+     * @return string
+     */
+    protected function viewPath($view)
+    {
+        $model = strtolower(Str::studly(class_basename($this->argument('name'))));
+        $file = str_replace('.', '/', $view) . '.blade.php';
+
+        $path = 'resources/views/' . $model . '/' . $file;
+
+        return $path;
+    }
+
+    /**
+     * Create the directory.
+     *
+     * @param $path
+     */
+    protected function createDir($path)
+    {
+        $dir = dirname($path);
+
+        if (!file_exists($dir)) {
+            mkdir($dir, 0755, true);
+        }
+    }
+
+    /**
      * Get the console command options.
      *
      * @return array
@@ -94,7 +161,7 @@ class MakeModelCommand extends ModelMakeCommand
 
             ['requests', 'R', InputOption::VALUE_NONE, 'Create new request files for the model'],
 
-            ['views', 'VV', InputOption::VALUE_NONE, 'Create new view files for the model'],
+            ['views', null, InputOption::VALUE_NONE, 'Create new view files for the model'],
         ];
 
         return array_merge(parent::getOptions(), $options);
