@@ -1,0 +1,12 @@
+{
+    "name": "bensherred/laravel-make-model",
+    "description": "A Laravel package which extends the make:model command to create everything you need for a new feature",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ben Sherred",
+            "email": "ben@sherred.co.uk"
+        }
+    ],
+    "require": {}
+}
