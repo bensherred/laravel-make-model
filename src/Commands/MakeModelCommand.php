@@ -31,6 +31,7 @@ class MakeModelCommand extends ModelMakeCommand
             $this->input->setOption('controller', true);
             $this->input->setOption('resource', true);
             $this->input->setOption('policy', true);
+            $this->input->setOption('requests', true);
         }
 
         if ($this->option('factory')) {
@@ -48,6 +49,10 @@ class MakeModelCommand extends ModelMakeCommand
         if ($this->option('policy')) {
             $this->createPolicy();
         }
+
+        if ($this->option('requests')) {
+            $this->createRequests();
+        }
     }
 
     /**
@@ -61,6 +66,19 @@ class MakeModelCommand extends ModelMakeCommand
 
         $this->call('make:policy', [
             'name' => "{$policy}Policy",
+        ]);
+    }
+
+    protected function createRequests()
+    {
+        $request = Str::studly(class_basename($this->argument('name')));
+
+        $this->call('make:request', [
+            'name' => "{$request}/StoreRequest",
+        ]);
+
+        $this->call('make:request', [
+            'name' => "{$request}/UpdateRequest",
         ]);
     }
 
