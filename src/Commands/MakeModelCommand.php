@@ -24,7 +24,24 @@ class MakeModelCommand extends ModelMakeCommand
             return false;
         }
 
-        // logic for all the default commands and our commands
+        if ($this->option('all')) {
+            $this->input->setOption('factory', true);
+            $this->input->setOption('migration', true);
+            $this->input->setOption('controller', true);
+            $this->input->setOption('resource', true);
+        }
+
+        if ($this->option('factory')) {
+            $this->createFactory();
+        }
+
+        if ($this->option('migration')) {
+            $this->createMigration();
+        }
+
+        if ($this->option('controller') || $this->option('resource')) {
+            $this->createController();
+        }
     }
 
     /**
