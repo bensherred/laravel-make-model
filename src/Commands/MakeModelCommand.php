@@ -4,6 +4,7 @@ namespace BenSherred\MakeModel\Commands;
 
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Console\ModelMakeCommand;
+use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
 class MakeModelCommand extends ModelMakeCommand
@@ -29,6 +30,7 @@ class MakeModelCommand extends ModelMakeCommand
             $this->input->setOption('migration', true);
             $this->input->setOption('controller', true);
             $this->input->setOption('resource', true);
+            $this->input->setOption('policy', true);
         }
 
         if ($this->option('factory')) {
@@ -42,6 +44,24 @@ class MakeModelCommand extends ModelMakeCommand
         if ($this->option('controller') || $this->option('resource')) {
             $this->createController();
         }
+
+        if ($this->option('policy')) {
+            $this->createPolicy();
+        }
+    }
+
+    /**
+     * Create a policy for the model.
+     *
+     * @return void
+     */
+    protected function createPolicy()
+    {
+        $policy = Str::studly(class_basename($this->argument('name')));
+
+        $this->call('make:policy', [
+            'name' => "{$policy}Policy",
+        ]);
     }
 
     /**
