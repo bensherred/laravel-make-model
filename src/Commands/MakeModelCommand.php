@@ -10,11 +10,6 @@ use Symfony\Component\Console\Input\InputOption;
 
 class MakeModelCommand extends ModelMakeCommand
 {
-    public function __construct(Filesystem $files)
-    {
-        parent::__construct($files);
-    }
-
     /**
      * Execute the console command.
      *

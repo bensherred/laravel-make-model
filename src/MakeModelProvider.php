@@ -2,6 +2,7 @@
 
 namespace BenSherred\MakeModel;
 
+use BenSherred\MakeModel\Commands\MakeControllerCommand;
 use BenSherred\MakeModel\Commands\MakeModelCommand;
 use Illuminate\Foundation\Providers\ArtisanServiceProvider;
 
@@ -25,6 +26,10 @@ class MakeModelProvider extends ArtisanServiceProvider
     public function register()
     {
         parent::register();
+
+        $this->app->singleton('command.controller.make', function ($app) {
+            return new MakeControllerCommand($app['files']);
+        });
 
         $this->app->singleton('command.model.make', function ($app) {
             return new MakeModelCommand($app['files']);
