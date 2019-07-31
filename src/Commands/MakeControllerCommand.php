@@ -35,7 +35,7 @@ class MakeControllerCommand extends ControllerMakeCommand
 
             if ($usesModel && $this->option('policy')) {
                 $this->createPolicy();
-                $replace = $this->buildPolicyReplacements($replace);
+                $replace = $this->buildModelReplacements($replace);
             }
 
             if ($usesModel || $this->option('resource')) {
@@ -58,17 +58,6 @@ class MakeControllerCommand extends ControllerMakeCommand
             array_values($replace),
             call_user_func([$this->getGrandparentClass(), 'buildClass'], $name)
         );
-    }
-
-    /**
-     * Build the policy replacement values.
-     *
-     * @param  array  $replace
-     * @return array
-     */
-    protected function buildPolicyReplacements(array $replace)
-    {
-        return $replace;
     }
 
     /**
