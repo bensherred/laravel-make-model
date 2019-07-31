@@ -40,67 +40,39 @@ class MakeModelCommand extends ModelMakeCommand
         if ($this->option('controller') || $this->option('resource')) {
             $this->createController();
         }
-
-        if ($this->option('policy')) {
-            $this->createPolicy();
-        }
-
-        if ($this->option('requests')) {
-            $this->createRequests();
-        }
-
-        if ($this->option('views')) {
-            $this->createViews();
-        }
     }
 
     /**
-     * Create a policy for the model.
+     * Create a controller for the model.
      *
      * @return void
      */
-    protected function createPolicy()
+    protected function createController()
     {
-        $policy = Str::studly(class_basename($this->argument('name')));
+        $controller = Str::studly(class_basename($this->argument('name')));
 
-        $this->call('make:policy', [
-            'name' => "{$policy}Policy",
-        ]);
-    }
+        $modelName = $this->qualifyClass($this->getNameInput());
 
-    /**
-     * Create request files for the model.
-     *
-     * @return void
-     */
-    protected function createRequests()
-    {
-        $request = Str::studly(class_basename($this->argument('name')));
+        $options = [
+            'name' => "{$controller}Controller",
+            '--model' => $this->option('resource') ? $modelName : null,
+        ];
 
-        $this->call('make:request', [
-            'name' => "{$request}/StoreRequest",
-        ]);
+        if ($this->option('resource')) {
+            if ($this->option('views')) {
+                $options['--views'] = true;
+            }
 
-        $this->call('make:request', [
-            'name' => "{$request}/UpdateRequest",
-        ]);
-    }
+            if ($this->option('requests')) {
+                $options['--requests'] = true;
+            }
 
-    /**
-     * Create the views for the model.
-     *
-     * @return void
-     */
-    protected function createViews()
-    {
-        $views = ['index', 'create', 'show', 'edit'];
-        $model = strtolower(Str::studly(class_basename($this->argument('name'))));
-
-        foreach ($views as $view) {
-            $this->call('make:view', [
-                'name' => "{$model}/{$view}"
-            ]);
+            if ($this->option('policy')) {
+                $options['--policy'] = true;
+            }
         }
+
+        $this->call('make:controller', $options);
     }
 
     /**
@@ -111,11 +83,13 @@ class MakeModelCommand extends ModelMakeCommand
     protected function getOptions()
     {
         $options = [
-            ['policy', 'P', InputOption::VALUE_NONE, 'Create a new policy for the model'],
+            ['all', 'a', InputOption::VALUE_NONE, 'Generate a migration, factory, resource controller, policy, request classes and views for the model'],
 
-            ['requests', 'R', InputOption::VALUE_NONE, 'Create new request files for the model'],
+            ['policy', 'P', InputOption::VALUE_NONE, 'Create a new policy for the model if a resource controller is created'],
 
-            ['views', null, InputOption::VALUE_NONE, 'Create new view files for the model'],
+            ['requests', 'R', InputOption::VALUE_NONE, 'Create new request files for the model if a resource controller is created'],
+
+            ['views', null, InputOption::VALUE_NONE, 'Create new view files for the model if a resource controller is created'],
         ];
 
         return array_merge(parent::getOptions(), $options);
