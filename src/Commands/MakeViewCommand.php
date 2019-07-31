@@ -35,7 +35,7 @@ class MakeViewCommand extends Command
         $this->createDir($path);
 
         if (File::exists($path)) {
-            $this->error("View {$view}.blade.php already exists!");
+            $this->error('View already exists!');
             return;
         }
 
