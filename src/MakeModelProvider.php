@@ -4,6 +4,7 @@ namespace BenSherred\MakeModel;
 
 use BenSherred\MakeModel\Commands\MakeControllerCommand;
 use BenSherred\MakeModel\Commands\MakeModelCommand;
+use BenSherred\MakeModel\Commands\MakeViewCommand;
 use Illuminate\Foundation\Providers\ArtisanServiceProvider;
 
 class MakeModelProvider extends ArtisanServiceProvider
@@ -34,5 +35,9 @@ class MakeModelProvider extends ArtisanServiceProvider
         $this->app->singleton('command.model.make', function ($app) {
             return new MakeModelCommand($app['files']);
         });
+
+        $this->commands([
+            MakeViewCommand::class,
+        ]);
     }
 }

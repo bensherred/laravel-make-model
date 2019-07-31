@@ -3,7 +3,6 @@
 namespace BenSherred\MakeModel\Commands;
 
 use Illuminate\Foundation\Console\ModelMakeCommand;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -98,48 +97,9 @@ class MakeModelCommand extends ModelMakeCommand
         $model = strtolower(Str::studly(class_basename($this->argument('name'))));
 
         foreach ($views as $view) {
-            $path = $this->viewPath($view);
-
-            $this->createDir($path);
-
-            if (File::exists($path)) {
-                $this->error("View {$model}/{$view}.blade.php already exists.");
-                return;
-            }
-
-            File::put($path, $path);
-
-            $this->info(ucfirst($view) . ' view created successfully.');
-        }
-    }
-
-    /**
-     * Get the full path of the view.
-     *
-     * @param  string  $view
-     * @return string
-     */
-    protected function viewPath($view)
-    {
-        $model = strtolower(Str::studly(class_basename($this->argument('name'))));
-        $file = str_replace('.', '/', $view) . '.blade.php';
-
-        $path = 'resources/views/' . $model . '/' . $file;
-
-        return $path;
-    }
-
-    /**
-     * Create the directory.
-     *
-     * @param $path
-     */
-    protected function createDir($path)
-    {
-        $dir = dirname($path);
-
-        if (!file_exists($dir)) {
-            mkdir($dir, 0755, true);
+            $this->call('make:view', [
+                'name' => "{$model}/{$view}"
+            ]);
         }
     }
 
