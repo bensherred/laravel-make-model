@@ -2,7 +2,6 @@
 
 namespace BenSherred\MakeModel\Commands;
 
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Console\ModelMakeCommand;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -13,11 +12,11 @@ class MakeModelCommand extends ModelMakeCommand
     /**
      * Execute the console command.
      *
-     * @return void
+     * @return void|bool
      */
     public function handle()
     {
-        if (parent::handle() === false && ! $this->option('force')) {
+        if (call_user_func([$this->getGrandparentClass(), 'handle']) === false && ! $this->option('force')) {
             return false;
         }
 
@@ -160,5 +159,17 @@ class MakeModelCommand extends ModelMakeCommand
         ];
 
         return array_merge(parent::getOptions(), $options);
+    }
+
+    /**
+     * Get the class name of the grandparent class.
+     *
+     * @return string
+     */
+    protected function getGrandparentClass()
+    {
+        return get_parent_class(
+            get_parent_class($this)
+        );
     }
 }
