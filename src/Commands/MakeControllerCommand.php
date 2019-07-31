@@ -114,16 +114,16 @@ class MakeControllerCommand extends ControllerMakeCommand
      */
     protected function createRequests()
     {
-        $request = $this->getBaseClassName(
-            Str::studly(class_basename($this->argument('name')))
+        $model = $this->getBaseClassName(
+            Str::studly(class_basename($this->option('model')))
         );
 
         $this->call('make:request', [
-            'name' => "{$request}/StoreRequest",
+            'name' => "{$model}/StoreRequest",
         ]);
 
         $this->call('make:request', [
-            'name' => "{$request}/UpdateRequest",
+            'name' => "{$model}/UpdateRequest",
         ]);
     }
 
@@ -136,7 +136,7 @@ class MakeControllerCommand extends ControllerMakeCommand
     {
         $views = ['index', 'create', 'show', 'edit'];
         $model = $this->getBaseClassName(
-            strtolower(Str::studly(class_basename($this->argument('name'))))
+            strtolower(Str::studly(class_basename($this->option('model'))))
         );
 
         foreach ($views as $view) {
