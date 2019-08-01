@@ -38,12 +38,12 @@ class MakeControllerCommand extends ControllerMakeCommand
                 $replace = $this->buildModelReplacements($replace);
             }
 
-            if ($usesModel || $this->option('resource')) {
-                if ($this->option('requests')) {
-                    $this->createRequests();
-                    $replace = $this->buildRequestsReplacements($replace);
-                }
+            if ($usesModel && $this->option('requests')) {
+                $this->createRequests();
+                $replace = $this->buildRequestsReplacements($replace);
+            }
 
+            if ($usesModel || $this->option('resource')) {
                 if ($this->option('views')) {
                     $this->createViews();
                     $replace = $this->buildViewsReplacements($replace);
@@ -68,6 +68,30 @@ class MakeControllerCommand extends ControllerMakeCommand
      */
     protected function buildRequestsReplacements(array $replace)
     {
+        $modelClass = $this->parseModel($this->option('model'));
+        $classBaseName = class_basename($modelClass);
+
+        if ($this->option('requests')) {
+            $replace["use Illuminate\Http\Request;"] = '';
+
+            $replace["DummyStoreRequestClass"] = 'StoreRequest';
+            $replace["DummyFullStoreRequestClass;\n"] = "App\\Http\\Requests\\{$classBaseName}\\StoreRequest;\n";
+            $replace["DummyFullStoreRequestMethodClass"] = 'StoreRequest';
+
+            $replace["DummyUpdateRequestClass"] = 'UpdateRequest';
+            $replace["DummyFullUpdateRequestClass;\n"] = "App\\Http\\Requests\\{$classBaseName}\\UpdateRequest;";
+            $replace["DummyFullUpdateRequestMethodClass"] = 'UpdateRequest';
+
+        } else {
+            $replace["DummyStoreRequestClass"] = 'Request';
+            $replace["use DummyFullStoreRequestClass;\n"] = '';
+            $replace["DummyFullStoreRequestMethodClass"] = '\Illuminate\Http\Request';
+
+            $replace["DummyUpdateRequestClass"] = 'Request';
+            $replace["use DummyFullUpdateRequestClass;\n"] = '';
+            $replace["DummyFullUpdateRequestMethodClass"] = '\Illuminate\Http\Request';
+        }
+
         return $replace;
     }
 
@@ -165,7 +189,16 @@ class MakeControllerCommand extends ControllerMakeCommand
 
             if ($usesModel && $this->option('policy')) {
                 $stub = str_replace('.stub', '.policy.stub', $stub);
+            } elseif (!$usesModel && $this->option('policy')) {
+                $this->error('Policies can only be added to model controllers');
+                exit();
             }
+
+            if (!$usesModel && $this->option('requests')) {
+                $this->error('Requests can only be added to model controllers');
+                exit();
+            }
+
             if (($usesModel || $this->option('resource')) && $this->option('views')) {
                 $stub = str_replace('.stub', '.views.stub', $stub);
             }
