@@ -27,7 +27,9 @@ class DummyClass extends Controller
      */
     public function index()
     {
-        //
+        return view('DummyViewPath.index', [
+            //
+        ]);
     }
 
     /**
@@ -37,7 +39,7 @@ class DummyClass extends Controller
      */
     public function create()
     {
-        //
+        return view('DummyViewPath.create');
     }
 
     /**
@@ -59,7 +61,9 @@ class DummyClass extends Controller
      */
     public function show(DummyModelClass $DummyModelVariable)
     {
-        //
+        return view('DummyViewPath.show', [
+            'DummyModelVariable' => $DummyModelVariable,
+        ]);
     }
 
     /**
@@ -70,7 +74,9 @@ class DummyClass extends Controller
      */
     public function edit(DummyModelClass $DummyModelVariable)
     {
-        //
+        return view('DummyViewPath.edit', [
+            'DummyModelVariable' => $DummyModelVariable,
+        ]);
     }
 
     /**

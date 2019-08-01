@@ -124,7 +124,12 @@ class MakeControllerCommand extends ControllerMakeCommand
      */
     protected function buildViewsReplacements(array $replace)
     {
-        return $replace;
+        $controller = strtolower(Str::studly($this->getBaseClassName()));
+        $viewPath = str_replace('/', '.', $controller);
+
+        return array_merge($replace, [
+            'DummyViewPath' => $viewPath,
+        ]);
     }
 
     /**
@@ -236,24 +241,24 @@ class MakeControllerCommand extends ControllerMakeCommand
     }
 
     /**
-     * Get the base name of the class without the controller suffix.
+     * Get the path with the name of the class without the controller suffix.
      *
      * @return string
      */
     protected function getBaseClassName()
     {
-        return class_basename(preg_replace('/Controller$/', '', $this->argument('name')));
+        return preg_replace('/Controller$/', '', $this->argument('name'));
     }
 
     /**
-     * Get the model class base name.
+     * Get the model class name with the path.
      *
      * @return string
      */
     protected function getModelName()
     {
         if ($this->option('model')) {
-            return class_basename(str_replace(['App\\', 'Model\\'], ['', ''], $this->option('model')));
+            return str_replace(['App\\', 'Model\\'], ['', ''], $this->option('model'));
         }
 
         return $this->getBaseClassName();
