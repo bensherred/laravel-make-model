@@ -9,6 +9,32 @@ use Symfony\Component\Console\Input\InputOption;
 class MakeControllerCommand extends ControllerMakeCommand
 {
     /**
+     * Execute the console command.
+     *
+     * @return void|bool
+     *
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function handle()
+    {
+        if (parent::handle() === false && ! $this->option('force')) {
+            return false;
+        }
+
+        if ($this->option('requests')) {
+            $this->createRequests();
+        }
+
+        if ($this->option('policy')) {
+            $this->createPolicy();
+        }
+
+        if ($this->option('views') && ! $this->option('api')) {
+            $this->createViews();
+        }
+    }
+
+    /**
      * Build the class with the given name.
      *
      * Remove the base controller import if we are already in base namespace.
@@ -34,20 +60,15 @@ class MakeControllerCommand extends ControllerMakeCommand
             $usesModel = $this->option('parent') || $this->option('model');
 
             if ($usesModel && $this->option('policy')) {
-                $this->createPolicy();
                 $replace = $this->buildModelReplacements($replace);
             }
 
-            if ($usesModel && $this->option('requests')) {
-                $this->createRequests();
+            if ($usesModel) {
                 $replace = $this->buildRequestsReplacements($replace);
             }
 
-            if ($usesModel || $this->option('resource')) {
-                if ($this->option('views')) {
-                    $this->createViews();
-                    $replace = $this->buildViewsReplacements($replace);
-                }
+            if (($usesModel || $this->option('resource')) && $this->option('views') && ! $this->option('api')) {
+                $replace = $this->buildViewsReplacements($replace);
             }
         }
 
@@ -72,24 +93,24 @@ class MakeControllerCommand extends ControllerMakeCommand
         $classBaseName = class_basename($modelClass);
 
         if ($this->option('requests')) {
-            $replace["use Illuminate\Http\Request;"] = '';
+            $replace['use Illuminate\\Http\\Request;'] = '';
 
-            $replace["DummyStoreRequestClass"] = 'StoreRequest';
-            $replace["DummyFullStoreRequestClass;\n"] = "App\\Http\\Requests\\{$classBaseName}\\StoreRequest;\n";
-            $replace["DummyFullStoreRequestMethodClass"] = 'StoreRequest';
+            $replace['DummyStoreRequestClass'] = 'StoreRequest';
+            $replace['DummyFullStoreRequestClass;'] = "App\\Http\\Requests\\{$classBaseName}\\StoreRequest;";
+            $replace['DummyFullStoreRequestMethodClass'] = 'StoreRequest';
 
-            $replace["DummyUpdateRequestClass"] = 'UpdateRequest';
-            $replace["DummyFullUpdateRequestClass;\n"] = "App\\Http\\Requests\\{$classBaseName}\\UpdateRequest;";
-            $replace["DummyFullUpdateRequestMethodClass"] = 'UpdateRequest';
+            $replace['DummyUpdateRequestClass'] = 'UpdateRequest';
+            $replace['DummyFullUpdateRequestClass;'] = "App\\Http\\Requests\\{$classBaseName}\\UpdateRequest;";
+            $replace['DummyFullUpdateRequestMethodClass'] = 'UpdateRequest';
 
         } else {
-            $replace["DummyStoreRequestClass"] = 'Request';
-            $replace["use DummyFullStoreRequestClass;\n"] = '';
-            $replace["DummyFullStoreRequestMethodClass"] = '\Illuminate\Http\Request';
+            $replace['DummyStoreRequestClass'] = 'Request';
+            $replace['DummyFullStoreRequestClass;'] = 'Illuminate\Http\Request;';
+            $replace['DummyFullStoreRequestMethodClass'] = 'Request';
 
-            $replace["DummyUpdateRequestClass"] = 'Request';
+            $replace['DummyUpdateRequestClass'] = 'Request';
             $replace["use DummyFullUpdateRequestClass;\n"] = '';
-            $replace["DummyFullUpdateRequestMethodClass"] = '\Illuminate\Http\Request';
+            $replace['DummyFullUpdateRequestMethodClass'] = 'Request';
         }
 
         return $replace;
@@ -113,10 +134,11 @@ class MakeControllerCommand extends ControllerMakeCommand
      */
     protected function createPolicy()
     {
-        $policy = Str::studly(class_basename(last(explode('\\', $this->option('model')))));
+        $model = Str::studly($this->getModelName());
 
         $this->call('make:policy', [
-            'name' => "{$policy}Policy",
+            'name' => "{$model}Policy",
+            '--model' => $model,
         ]);
     }
 
@@ -127,16 +149,14 @@ class MakeControllerCommand extends ControllerMakeCommand
      */
     protected function createRequests()
     {
-        $model = $this->getBaseClassName(
-            Str::studly(class_basename($this->option('model')))
-        );
+        $controller = Str::studly($this->getBaseClassName());
 
         $this->call('make:request', [
-            'name' => "{$model}/StoreRequest",
+            'name' => "{$controller}/StoreRequest",
         ]);
 
         $this->call('make:request', [
-            'name' => "{$model}/UpdateRequest",
+            'name' => "{$controller}/UpdateRequest",
         ]);
     }
 
@@ -148,13 +168,11 @@ class MakeControllerCommand extends ControllerMakeCommand
     protected function createViews()
     {
         $views = ['index', 'create', 'show', 'edit'];
-        $model = $this->getBaseClassName(
-            strtolower(Str::studly(class_basename($this->option('model'))))
-        );
+        $controller = strtolower(Str::studly($this->getBaseClassName()));
 
         foreach ($views as $view) {
             $this->call('make:view', [
-                'name' => "{$model}/{$view}"
+                'name' => "{$controller}/{$view}"
             ]);
         }
     }
@@ -189,14 +207,6 @@ class MakeControllerCommand extends ControllerMakeCommand
 
             if ($usesModel && $this->option('policy')) {
                 $stub = str_replace('.stub', '.policy.stub', $stub);
-            } elseif (!$usesModel && $this->option('policy')) {
-                $this->error('Policies can only be added to model controllers');
-                exit();
-            }
-
-            if (!$usesModel && $this->option('requests')) {
-                $this->error('Requests can only be added to model controllers');
-                exit();
             }
 
             if (($usesModel || $this->option('resource')) && $this->option('views')) {
@@ -217,27 +227,36 @@ class MakeControllerCommand extends ControllerMakeCommand
     protected function getOptions()
     {
         $options = [
-            ['policy', 'P', InputOption::VALUE_NONE, 'Create a new policy for the model controller'],
-            ['requests', 'R', InputOption::VALUE_NONE, 'Create new request files for the model controller'],
-            ['views', null, InputOption::VALUE_NONE, 'Create new view files for the model controller'],
+            ['policy', 'P', InputOption::VALUE_NONE, 'Create a new policy'],
+            ['requests', 'R', InputOption::VALUE_NONE, 'Create new request classes'],
+            ['views', null, InputOption::VALUE_NONE, 'Create new view files if the controller is not for the API'],
         ];
 
         return array_merge(parent::getOptions(), $options);
     }
 
     /**
-     * Get the class name without "Controller".
+     * Get the base name of the class without the controller suffix.
      *
-     * @param  string  $name
      * @return string
      */
-    protected function getBaseClassName($name)
+    protected function getBaseClassName()
     {
-        if (strpos('Controller', $name) === false) {
-            return $name;
+        return class_basename(preg_replace('/Controller$/', '', $this->argument('name')));
+    }
+
+    /**
+     * Get the model class base name.
+     *
+     * @return string
+     */
+    protected function getModelName()
+    {
+        if ($this->option('model')) {
+            return class_basename(str_replace(['App\\', 'Model\\'], ['', ''], $this->option('model')));
         }
 
-        return substr($name, 0, strlen($name) - strlen('Controller'));
+        return $this->getBaseClassName();
     }
 
     /**

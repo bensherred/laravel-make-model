@@ -15,30 +15,12 @@ class MakeModelCommand extends ModelMakeCommand
      */
     public function handle()
     {
-        if (call_user_func([$this->getGrandparentClass(), 'handle']) === false && ! $this->option('force')) {
+        if (parent::handle() === false) {
             return false;
         }
 
-        if ($this->option('all')) {
-            $this->input->setOption('factory', true);
-            $this->input->setOption('migration', true);
-            $this->input->setOption('controller', true);
-            $this->input->setOption('resource', true);
-            $this->input->setOption('policy', true);
-            $this->input->setOption('requests', true);
-            $this->input->setOption('views', true);
-        }
-
-        if ($this->option('factory')) {
-            $this->createFactory();
-        }
-
-        if ($this->option('migration')) {
-            $this->createMigration();
-        }
-
-        if ($this->option('controller') || $this->option('resource')) {
-            $this->createController();
+        if ($this->option('policy')) {
+            $this->createPolicy();
         }
     }
 
@@ -56,23 +38,32 @@ class MakeModelCommand extends ModelMakeCommand
         $options = [
             'name' => "{$controller}Controller",
             '--model' => $this->option('resource') ? $modelName : null,
+            '--views' => true,
+            '--requests' => true,
         ];
 
-        if ($this->option('resource')) {
-            if ($this->option('views')) {
-                $options['--views'] = true;
-            }
-
-            if ($this->option('requests')) {
-                $options['--requests'] = true;
-            }
-
-            if ($this->option('policy')) {
-                $options['--policy'] = true;
-            }
+        // If the developer does not want to create explicitly a policy with the model,
+        // the command for making a controller will deal with it.
+        if (! $this->option('policy')) {
+            $options['--policy'] = true;
         }
 
         $this->call('make:controller', $options);
+    }
+
+    /**
+     * Create a policy for the model.
+     *
+     * @return void
+     */
+    protected function createPolicy()
+    {
+        $model = Str::studly(class_basename($this->argument('name')));
+
+        $this->call('make:policy', [
+            'name' => "{$model}Policy",
+            '--model' => $model,
+        ]);
     }
 
     /**
@@ -83,27 +74,15 @@ class MakeModelCommand extends ModelMakeCommand
     protected function getOptions()
     {
         $options = [
-            ['all', 'a', InputOption::VALUE_NONE, 'Generate a migration, factory, resource controller, policy, request classes and views for the model'],
+            ['all', 'a', InputOption::VALUE_NONE, 'Generate a migration, factory and resource controller with request classes, views and policy for the model'],
 
-            ['policy', 'P', InputOption::VALUE_NONE, 'Create a new policy for the model if a resource controller is created'],
+            ['policy', 'P', InputOption::VALUE_NONE, 'Create a new policy for the model'],
 
-            ['requests', 'R', InputOption::VALUE_NONE, 'Create new request files for the model if a resource controller is created'],
+            ['controller', 'c', InputOption::VALUE_NONE, 'Create a new controller for the model with request classes, views and a policy'],
 
-            ['views', null, InputOption::VALUE_NONE, 'Create new view files for the model if a resource controller is created'],
+            ['resource', 'r', InputOption::VALUE_NONE, 'Indicates if the generated controller should be a resource controller with request classes, views and a policy'],
         ];
 
         return array_merge(parent::getOptions(), $options);
-    }
-
-    /**
-     * Get the class name of the grandparent class.
-     *
-     * @return string
-     */
-    protected function getGrandparentClass()
-    {
-        return get_parent_class(
-            get_parent_class($this)
-        );
     }
 }
