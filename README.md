@@ -64,8 +64,7 @@ php artisan make:model Post --policy
 
 ### make:controller
 The extension of the make:controller is very similar to the make:model
-command, but has a few additional options. **Please note that the --all
-option is not available for the make:controller command**. 
+command, but has a few additional options.
 
 ##### Creating a policy
 To create a policy along with the controller you can add the --policy option.
@@ -147,3 +146,10 @@ blog folder in views.
 ``` bash
 php artisan make:view blog/index
 ```
+
+## Credits
+- [Ben Sherred](https://github.com/bensherred)
+- [ShawnCZek](https://github.com/shawnczek)
+
+## License
+The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
