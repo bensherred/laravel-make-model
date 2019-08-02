@@ -7,7 +7,7 @@ use BenSherred\MakeModel\Commands\MakeModelCommand;
 use BenSherred\MakeModel\Commands\MakeViewCommand;
 use Illuminate\Foundation\Providers\ArtisanServiceProvider;
 
-class MakeModelProvider extends ArtisanServiceProvider
+class MakeModelServiceProvider extends ArtisanServiceProvider
 {
     /**
      * Bootstrap the application services.

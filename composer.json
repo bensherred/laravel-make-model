@@ -12,5 +12,12 @@
             "email": "shawnczek@truckersmp.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "extra": {
+        "laravel": {
+            "providers": [
+                "BenSherred\\MakeModel\\MakeModelServiceProvider"
+            ]
+        }
+    }
 }
