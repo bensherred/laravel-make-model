@@ -54,8 +54,7 @@ The additional classes/files that will get created for this example are:
 * resources/views/post/show.blade.php
 
 The controller that gets generated will automatically return the views,
-include the requests and policy. It will also make the Post model accessible
-for the show, edit, update and delete methods.
+include the requests and policy.
 
 Another option that is available is to just create the policy for the model.
 This can be done by running the following command:
