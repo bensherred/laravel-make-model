@@ -7,9 +7,6 @@ this package also creates a make:view command.
 
 * [Installation](#installation)
 * [Usage](#usage)
-    * [make:model](#make:model)
-    * [make:controller](#make:controller)
-    * [make:view](#make:view)
 
 ## Installation
 You can install this package via compoer:
