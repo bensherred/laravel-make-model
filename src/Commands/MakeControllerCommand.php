@@ -133,6 +133,12 @@ class MakeControllerCommand extends ControllerMakeCommand
      */
     protected function createPolicy()
     {
+        $policy = $this->option('policy');
+
+        if ($policy != '' && class_exists("\\App\\Policies\\{$policy}")) {
+            return;
+        }
+
         $model = Str::studly($this->getModelName());
 
         $this->call('make:policy', [
@@ -226,7 +232,7 @@ class MakeControllerCommand extends ControllerMakeCommand
     protected function getOptions()
     {
         $options = [
-            ['policy', 'P', InputOption::VALUE_NONE, 'Create a new policy'],
+            ['policy', 'P', InputOption::VALUE_OPTIONAL, 'Create a new policy'],
             ['requests', 'R', InputOption::VALUE_NONE, 'Create new request classes'],
             ['views', null, InputOption::VALUE_NONE, 'Create new view files if the controller is not for the API'],
         ];

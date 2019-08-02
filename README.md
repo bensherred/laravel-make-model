@@ -80,6 +80,13 @@ Running the above command will create a resource controller and use the Post
 model, along with creating the PostPolicy and including the authorizeResource
 option in the controller.
 
+If you already have a policy or would like a custom name for a policy you can
+run the following command:
+
+``` bash
+php artisan make:controller PostController --model=Post --policy=PostPolicy
+```
+
 **If you create a resource controller the policy will be create, but the
 authorizeResource option will not be automatically added to the controller.**
 
