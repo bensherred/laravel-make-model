@@ -56,18 +56,12 @@ class MakeControllerCommand extends ControllerMakeCommand
             $replace = $this->buildModelReplacements($replace);
         }
 
+        $replace = $this->buildRequestsReplacements($replace);
+
         if (! $this->option('invokable')) {
-            $usesModel = $this->option('parent') || $this->option('model');
+            $hasResource = $this->option('parent') || $this->option('model') || $this->option('resource');
 
-            if ($usesModel && $this->option('policy')) {
-                $replace = $this->buildModelReplacements($replace);
-            }
-
-            if ($usesModel) {
-                $replace = $this->buildRequestsReplacements($replace);
-            }
-
-            if (($usesModel || $this->option('resource')) && $this->option('views') && ! $this->option('api')) {
+            if ($hasResource && $this->option('views') && ! $this->option('api')) {
                 $replace = $this->buildViewsReplacements($replace);
             }
         }
@@ -208,13 +202,13 @@ class MakeControllerCommand extends ControllerMakeCommand
         }
 
         if (! is_null($stub) && ! $this->option('invokable')) {
-            $usesModel = $this->option('parent') || $this->option('model');
+            $hasResource = $this->option('parent') || $this->option('model') || $this->option('resource');
 
-            if ($usesModel && $this->option('policy')) {
+            if ($this->option('model') && $this->option('policy')) {
                 $stub = str_replace('.stub', '.policy.stub', $stub);
             }
 
-            if (($usesModel || $this->option('resource')) && $this->option('views')) {
+            if ($hasResource && $this->option('views') && ! $this->option('api')) {
                 $stub = str_replace('.stub', '.views.stub', $stub);
             }
         }

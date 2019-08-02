@@ -1,0 +1,94 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyFullModelClass;
+use DummyFullStoreRequestClass;
+use DummyFullUpdateRequestClass;
+use DummyRootNamespaceHttp\Controllers\Controller;
+use Illuminate\Http\Response;
+
+class DummyClass extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return Response
+     */
+    public function index()
+    {
+        return view('DummyViewPath.index', [
+            //
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        return view('DummyViewPath.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  DummyFullStoreRequestMethodClass  $request
+     * @return Response
+     */
+    public function store(DummyStoreRequestClass $request)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
+     */
+    public function show(DummyModelClass $DummyModelVariable)
+    {
+        return view('DummyViewPath.show', [
+            'DummyModelVariable' => $DummyModelVariable,
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
+     */
+    public function edit(DummyModelClass $DummyModelVariable)
+    {
+        return view('DummyViewPath.edit', [
+            'DummyModelVariable' => $DummyModelVariable,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  DummyFullUpdateRequestMethodClass  $request
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
+     */
+    public function update(DummyUpdateRequestClass $request, DummyModelClass $DummyModelVariable)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
+     */
+    public function destroy(DummyModelClass $DummyModelVariable)
+    {
+        //
+    }
+}

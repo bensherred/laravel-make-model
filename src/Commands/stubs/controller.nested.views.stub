@@ -1,0 +1,114 @@
+<?php
+
+namespace DummyNamespace;
+
+use DummyFullModelClass;
+use ParentDummyFullModelClass;
+use DummyRootNamespaceHttp\Controllers\Controller;
+use DummyFullStoreRequestClass;
+use DummyFullUpdateRequestClass;
+use Illuminate\Http\Response;
+
+class DummyClass extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @return Response
+     */
+    public function index(ParentDummyModelClass $ParentDummyModelVariable)
+    {
+        //
+
+        return view('DummyViewPath.index', [
+            'ParentDummyModelVariable' => $ParentDummyModelVariable,
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @return Response
+     */
+    public function create(ParentDummyModelClass $ParentDummyModelVariable)
+    {
+        //
+
+        return view('DummyViewPath.create', [
+            'ParentDummyModelVariable' => $ParentDummyModelVariable,
+        ]);
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  DummyFullStoreRequestMethodClass  $request
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @return Response
+     */
+    public function store(DummyStoreRequestClass $request, ParentDummyModelClass $ParentDummyModelVariable)
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
+     */
+    public function show(ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
+    {
+        //
+
+        return view('DummyViewPath.show', [
+            'ParentDummyModelVariable' => $ParentDummyModelVariable,
+            'DummyModelVariable' => $DummyModelVariable,
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
+     */
+    public function edit(ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
+    {
+        //
+
+        return view('DummyViewPath.edit', [
+            'ParentDummyModelVariable' => $ParentDummyModelVariable,
+            'DummyModelVariable' => $DummyModelVariable,
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  DummyFullUpdateRequestMethodClass  $request
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
+     */
+    public function update(DummyUpdateRequestClass $request, ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
+     */
+    public function destroy(ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
+    {
+        //
+    }
+}
