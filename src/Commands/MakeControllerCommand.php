@@ -83,18 +83,18 @@ class MakeControllerCommand extends ControllerMakeCommand
      */
     protected function buildRequestsReplacements(array $replace)
     {
-        $modelClass = $this->parseModel($this->option('model'));
-        $classBaseName = class_basename($modelClass);
+        $controller = Str::studly($this->getBaseClassName());
+        $requestPath = str_replace('/', '\\', $controller);
 
         if ($this->option('requests')) {
             $replace['use Illuminate\\Http\\Request;'] = '';
 
             $replace['DummyStoreRequestClass'] = 'StoreRequest';
-            $replace['DummyFullStoreRequestClass;'] = "App\\Http\\Requests\\{$classBaseName}\\StoreRequest;";
+            $replace['DummyFullStoreRequestClass;'] = "App\\Http\\Requests\\{$requestPath}\\StoreRequest;";
             $replace['DummyFullStoreRequestMethodClass'] = 'StoreRequest';
 
             $replace['DummyUpdateRequestClass'] = 'UpdateRequest';
-            $replace['DummyFullUpdateRequestClass;'] = "App\\Http\\Requests\\{$classBaseName}\\UpdateRequest;";
+            $replace['DummyFullUpdateRequestClass;'] = "App\\Http\\Requests\\{$requestPath}\\UpdateRequest;";
             $replace['DummyFullUpdateRequestMethodClass'] = 'UpdateRequest';
 
         } else {
