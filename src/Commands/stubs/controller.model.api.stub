@@ -3,15 +3,17 @@
 namespace DummyNamespace;
 
 use DummyFullModelClass;
-use Illuminate\Http\Request;
 use DummyRootNamespaceHttp\Controllers\Controller;
+use DummyFullStoreRequestClass;
+use DummyFullUpdateRequestClass;
+use Illuminate\Http\Response;
 
 class DummyClass extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
@@ -21,10 +23,10 @@ class DummyClass extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  DummyFullStoreRequestMethodClass  $request
+     * @return Response
      */
-    public function store(Request $request)
+    public function store(DummyStoreRequestClass $request)
     {
         //
     }
@@ -32,8 +34,8 @@ class DummyClass extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \DummyFullModelClass  $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
      */
     public function show(DummyModelClass $DummyModelVariable)
     {
@@ -43,11 +45,11 @@ class DummyClass extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \DummyFullModelClass  $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @param  DummyFullUpdateRequestMethodClass  $request
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
      */
-    public function update(Request $request, DummyModelClass $DummyModelVariable)
+    public function update(DummyUpdateRequestClass $request, DummyModelClass $DummyModelVariable)
     {
         //
     }
@@ -55,8 +57,8 @@ class DummyClass extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \DummyFullModelClass  $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
      */
     public function destroy(DummyModelClass $DummyModelVariable)
     {

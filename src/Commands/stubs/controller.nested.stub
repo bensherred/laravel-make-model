@@ -4,16 +4,18 @@ namespace DummyNamespace;
 
 use DummyFullModelClass;
 use ParentDummyFullModelClass;
-use Illuminate\Http\Request;
 use DummyRootNamespaceHttp\Controllers\Controller;
+use DummyFullStoreRequestClass;
+use DummyFullUpdateRequestClass;
+use Illuminate\Http\Response;
 
 class DummyClass extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param  \ParentDummyFullModelClass  $ParentDummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @return Response
      */
     public function index(ParentDummyModelClass $ParentDummyModelVariable)
     {
@@ -23,8 +25,8 @@ class DummyClass extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @param  \ParentDummyFullModelClass  $ParentDummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @return Response
      */
     public function create(ParentDummyModelClass $ParentDummyModelVariable)
     {
@@ -34,11 +36,11 @@ class DummyClass extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \ParentDummyFullModelClass  $ParentDummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @param  DummyFullStoreRequestMethodClass  $request
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @return Response
      */
-    public function store(Request $request, ParentDummyModelClass $ParentDummyModelVariable)
+    public function store(DummyStoreRequestClass $request, ParentDummyModelClass $ParentDummyModelVariable)
     {
         //
     }
@@ -46,9 +48,9 @@ class DummyClass extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \ParentDummyFullModelClass  $ParentDummyModelVariable
-     * @param  \DummyFullModelClass  $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
      */
     public function show(ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
     {
@@ -58,9 +60,9 @@ class DummyClass extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \ParentDummyFullModelClass  $ParentDummyModelVariable
-     * @param  \DummyFullModelClass  $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
      */
     public function edit(ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
     {
@@ -70,12 +72,12 @@ class DummyClass extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \ParentDummyFullModelClass  $ParentDummyModelVariable
-     * @param  \DummyFullModelClass  $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @param  DummyFullUpdateRequestMethodClass  $request
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
      */
-    public function update(Request $request, ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
+    public function update(DummyUpdateRequestClass $request, ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
     {
         //
     }
@@ -83,9 +85,9 @@ class DummyClass extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \ParentDummyFullModelClass  $ParentDummyModelVariable
-     * @param  \DummyFullModelClass  $DummyModelVariable
-     * @return \Illuminate\Http\Response
+     * @param  ParentDummyModelClass  $ParentDummyModelVariable
+     * @param  DummyModelClass  $DummyModelVariable
+     * @return Response
      */
     public function destroy(ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
     {

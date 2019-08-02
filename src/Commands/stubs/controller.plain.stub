@@ -2,8 +2,10 @@
 
 namespace DummyNamespace;
 
-use Illuminate\Http\Request;
 use DummyRootNamespaceHttp\Controllers\Controller;
+use DummyFullStoreRequestClass;
+use DummyFullUpdateRequestClass;
+use Illuminate\Http\Response;
 
 class DummyClass extends Controller
 {

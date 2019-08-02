@@ -3,7 +3,6 @@
 namespace DummyNamespace;
 
 use DummyFullModelClass;
-use ParentDummyFullModelClass;
 use DummyRootNamespaceHttp\Controllers\Controller;
 use DummyFullStoreRequestClass;
 use DummyFullUpdateRequestClass;
@@ -12,12 +11,21 @@ use Illuminate\Http\Response;
 class DummyClass extends Controller
 {
     /**
+     * Instantiate a new DummyClass controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(DummyModelClass::class, 'DummyModelVariable');
+    }
+
+    /**
      * Display a listing of the resource.
      *
-     * @param  ParentDummyModelClass  $ParentDummyModelVariable
      * @return Response
      */
-    public function index(ParentDummyModelClass $ParentDummyModelVariable)
+    public function index()
     {
         //
     }
@@ -26,10 +34,9 @@ class DummyClass extends Controller
      * Store a newly created resource in storage.
      *
      * @param  DummyFullStoreRequestMethodClass  $request
-     * @param  ParentDummyModelClass  $ParentDummyModelVariable
      * @return Response
      */
-    public function store(DummyStoreRequestClass $request, ParentDummyModelClass $ParentDummyModelVariable)
+    public function store(DummyStoreRequestClass $request)
     {
         //
     }
@@ -37,11 +44,10 @@ class DummyClass extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  ParentDummyModelClass  $ParentDummyModelVariable
      * @param  DummyModelClass  $DummyModelVariable
      * @return Response
      */
-    public function show(ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
+    public function show(DummyModelClass $DummyModelVariable)
     {
         //
     }
@@ -50,11 +56,10 @@ class DummyClass extends Controller
      * Update the specified resource in storage.
      *
      * @param  DummyFullUpdateRequestMethodClass  $request
-     * @param  ParentDummyModelClass  $ParentDummyModelVariable
      * @param  DummyModelClass  $DummyModelVariable
      * @return Response
      */
-    public function update(DummyUpdateRequestClass $request, ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
+    public function update(DummyUpdateRequestClass $request, DummyModelClass $DummyModelVariable)
     {
         //
     }
@@ -62,11 +67,10 @@ class DummyClass extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  ParentDummyModelClass  $ParentDummyModelVariable
      * @param  DummyModelClass  $DummyModelVariable
      * @return Response
      */
-    public function destroy(ParentDummyModelClass $ParentDummyModelVariable, DummyModelClass $DummyModelVariable)
+    public function destroy(DummyModelClass $DummyModelVariable)
     {
         //
     }
