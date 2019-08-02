@@ -7,9 +7,11 @@ this package also creates a make:view command.
 
 * [Installation](#installation)
 * [Usage](#usage)
+* [Credits](#credits)
+* [License](#license)
 
 ## Installation
-You can install this package via compoer:
+You can install this package via composer:
 
 ``` bash
 composer require bensherred/laravel-make-model

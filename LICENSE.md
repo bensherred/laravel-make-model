@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2019 Ben Sherred & ShawnCZek
+Copyright (c) 2019 Ben Sherred <ben@sherred.co.uk> & ShawnCZek <shawnczek@truckersmp.com>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
