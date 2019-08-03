@@ -13,6 +13,11 @@
         }
     ],
     "require": {},
+    "autoload": {
+        "psr-4": {
+            "BenSherred\\MakeModel\\": "src"
+        },
+    },
     "extra": {
         "laravel": {
             "providers": [
