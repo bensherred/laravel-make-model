@@ -73,7 +73,7 @@ This will only get added to the controller automatically if you specify a
 model for the controller.
 
 ``` bash
-php artisan make:controller PostController --model=Post --polcy
+php artisan make:controller PostController --model=Post --policy
 ``` 
 
 Running the above command will create a resource controller and use the Post
