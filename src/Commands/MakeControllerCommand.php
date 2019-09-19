@@ -155,13 +155,14 @@ class MakeControllerCommand extends ControllerMakeCommand
     protected function createRequests()
     {
         $controller = Str::studly($this->getBaseClassName());
+        $model = Str::studly($this->getModelName());
 
         $this->call('make:request', [
-            'name' => "{$controller}/StoreRequest",
+            'name' => "{$controller}/{$model}StoreRequest",
         ]);
 
         $this->call('make:request', [
-            'name' => "{$controller}/UpdateRequest",
+            'name' => "{$controller}/{$model}UpdateRequest",
         ]);
     }
 

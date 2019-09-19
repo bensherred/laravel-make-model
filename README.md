@@ -45,8 +45,8 @@ php artisan make:model Post --all
 
 The additional classes/files that will get created for this example are:
 
-* app/Http/Requests/Post/StoreRequest.php
-* app/Http/Requests/Post/UpdateRequest.php
+* app/Http/Requests/Post/PostStoreRequest.php
+* app/Http/Requests/Post/PostUpdateRequest.php
 * app/Policies/PostPolicy.php
 * resources/views/post/create.blade.php
 * resources/views/post/edit.blade.php
@@ -92,8 +92,9 @@ authorizeResource option will not be automatically added to the controller.**
 
 ##### Create requests
 If you would like to create custom request classes for your controller, you
-can add the --requests option to the command. This will create a StoreRequest
-and UpdateRequest class under app/Http/Requests/{Model}/.
+can add the --requests option to the command. This will create a
+{Model}StoreRequest and {Model}UpdateRequest class under
+app/Http/Requests/{Model}/.
 
 This option will work for both model controllers and resource controllers. If
 you create a model controller by specifying the --model= option, it will use
@@ -105,7 +106,7 @@ use that instead.
 php artisan make:controller PostController --resource --requests
 ```
 
-Therefore, running the following command will create a StoreRequest and
+Therefore, running the following command will create a PostStoreRequest and
 UpdateRequest class under app/Http/Requests/Post.
 
 ##### Create views
