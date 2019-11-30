@@ -45,8 +45,8 @@ php artisan make:model Post --all
 
 The additional classes/files that will get created for this example are:
 
-* app/Http/Requests/Post/PostStoreRequest.php
-* app/Http/Requests/Post/PostUpdateRequest.php
+* app/Http/Requests/Post/StorePostRequest.php
+* app/Http/Requests/Post/UpdatePostRequest.php
 * app/Policies/PostPolicy.php
 * resources/views/post/create.blade.php
 * resources/views/post/edit.blade.php
@@ -106,8 +106,8 @@ use that instead.
 php artisan make:controller PostController --resource --requests
 ```
 
-Therefore, running the following command will create a PostStoreRequest and
-UpdateRequest class under app/Http/Requests/Post.
+Therefore, running the following command will create a StorePostRequest and
+UpdatePostRequest class under app/Http/Requests/Post.
 
 ##### Create views
 Another option which has been added to the make:controller command is the
