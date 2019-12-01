@@ -158,11 +158,11 @@ class MakeControllerCommand extends ControllerMakeCommand
         $model = Str::studly($this->getModelName());
 
         $this->call('make:request', [
-            'name' => "{$controller}/{$model}StoreRequest",
+            'name' => "{$controller}/Store{$model}Request",
         ]);
 
         $this->call('make:request', [
-            'name' => "{$controller}/{$model}UpdateRequest",
+            'name' => "{$controller}/Update{$model}Request",
         ]);
     }
 
