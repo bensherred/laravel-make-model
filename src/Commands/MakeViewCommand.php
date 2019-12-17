@@ -36,6 +36,7 @@ class MakeViewCommand extends Command
 
         if (File::exists($path)) {
             $this->error('View already exists!');
+
             return;
         }
 
@@ -52,9 +53,9 @@ class MakeViewCommand extends Command
      */
     protected function getPath($view)
     {
-        $file = str_replace('.', '/', $view) . '.blade.php';
+        $file = str_replace('.', '/', $view).'.blade.php';
 
-        $path = 'resources/views/' . $file;
+        $path = 'resources/views/'.$file;
 
         return $path;
     }
@@ -68,7 +69,7 @@ class MakeViewCommand extends Command
     {
         $dir = dirname($path);
 
-        if (!file_exists($dir)) {
+        if (! file_exists($dir)) {
             mkdir($dir, 0755, true);
         }
     }
