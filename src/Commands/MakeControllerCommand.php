@@ -96,7 +96,6 @@ class MakeControllerCommand extends ControllerMakeCommand
             $replace['DummyUpdateRequestClass'] = 'UpdateRequest';
             $replace['DummyFullUpdateRequestClass;'] = "App\\Http\\Requests\\{$requestPath}\\UpdateRequest;";
             $replace['DummyFullUpdateRequestMethodClass'] = 'UpdateRequest';
-
         } else {
             $replace['DummyStoreRequestClass'] = 'Request';
             $replace['DummyFullStoreRequestClass;'] = 'Illuminate\Http\Request;';
@@ -178,7 +177,7 @@ class MakeControllerCommand extends ControllerMakeCommand
 
         foreach ($views as $view) {
             $this->call('make:view', [
-                'name' => "{$controller}/{$view}"
+                'name' => "{$controller}/{$view}",
             ]);
         }
     }
